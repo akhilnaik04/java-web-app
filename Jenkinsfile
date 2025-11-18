@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone') {
+        stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/akhilnaik04/java-web-app.git'
+                git url: 'https://github.com/akhilnaik04/java-web-app.git', branch: 'main'
             }
         }
 
@@ -29,10 +29,10 @@ pipeline {
 
     post {
         success {
-            echo "Build successful!"
+            echo 'Build Successful!'
         }
         failure {
-            echo "Build failed!"
+            echo 'Build Failed!'
         }
     }
 }
