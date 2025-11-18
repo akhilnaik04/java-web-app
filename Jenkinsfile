@@ -1,18 +1,38 @@
-node {
-    stage('Checkout') {
-        git 'https://github.com/akhilnaik04/java-web-app'
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/akhilnaik04/java-web-app.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn package'
+            }
+        }
     }
 
-    stage('Build') {
-        bat 'mvn clean'
-        bat 'mvn install'
-    }
-
-    stage('Test') {
-        bat 'mvn test'
-    }
-
-    stage('Archive') {
-        archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+    post {
+        success {
+            echo "Build successful!"
+        }
+        failure {
+            echo "Build failed!"
+        }
     }
 }
