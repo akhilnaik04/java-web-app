@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git url: 'https://github.com/akhilnaik04/java-web-app.git', branch: 'main'
+                git branch: 'main', url: 'https://github.com/akhilnaik04/java-web-app.git'
             }
         }
 
@@ -29,10 +29,10 @@ pipeline {
 
     post {
         success {
-            echo 'Build Successful!'
+            echo "Build successful!"
         }
         failure {
-            echo 'Build Failed!'
+            echo "Build failed!"
         }
     }
 }
