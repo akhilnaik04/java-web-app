@@ -1,0 +1,25 @@
+node {
+    stage('Init') {
+        echo "Initializing workspace..."
+        deleteDir()
+    }
+
+    stage('Build') {
+        echo "Running build commands..."
+        bat 'echo Building the project...'
+    }
+
+    stage('Test') {
+        echo "Running test cases..."
+        bat 'echo Testing the application...'
+    }
+
+    stage('Deploy') {
+        echo "Deploying application..."
+        bat 'echo Deployment step executed...'
+    }
+
+    stage('Finish') {
+        echo "Pipeline executed successfully!"
+    }
+}
