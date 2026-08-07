@@ -1,0 +1,863 @@
+stm''
+
+
+
+
+
+2dep
+
+<dependencies>
+
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.34.0</version>
+    </dependency>
+
+</dependencies>
+
+
+
+
+
+2;
+package com.test.selenium;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Exp2_SinglePropertyCheckpoint {
+
+    public static void main(String[] args) {
+
+        // Setup ChromeDriver automatically
+        WebDriverManager.chromedriver().setup();
+
+        // Launch Chrome Browser
+        WebDriver driver = new ChromeDriver();
+
+        // Maximize Browser
+        driver.manage().window().maximize();
+
+        // Open Google
+        driver.get("https://www.google.com");
+
+        // Expected Title
+        String expectedTitle = "Google";
+
+        // Actual Title
+        String actualTitle = driver.getTitle();
+
+        // Print Titles
+        System.out.println("Actual Title   : " + actualTitle);
+        System.out.println("Expected Title : " + expectedTitle);
+
+        // Checkpoint
+        if (actualTitle.equals(expectedTitle)) {
+            System.out.println("PASS: Title is correct");
+        } else {
+            System.out.println("FAIL: Title is incorrect");
+        }
+
+        // Close Browser
+        driver.quit();
+    }
+}
+
+
+pom
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.test</groupId>
+    <artifactId>maven-archetype-quickstart</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>maven-archetype-quickstart</name>
+    <url>http://www.example.com</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>17</maven.compiler.release>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.11.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <!-- Selenium Java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.34.0</version>
+        </dependency>
+
+        <!-- WebDriverManager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.9.2</version>
+        </dependency>
+
+        <!-- JUnit Jupiter API -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Jupiter Parameterized Tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.12.1</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.6.1</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
+
+
+
+
+
+
+
+
+3
+
+package com.test.selenium;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Exp3_SingleObjectCheckpoint {
+
+    public static void main(String[] args) {
+
+        // Setup ChromeDriver
+        WebDriverManager.chromedriver().setup();
+
+        // Launch Browser
+        WebDriver driver = new ChromeDriver();
+
+        // Maximize Browser
+        driver.manage().window().maximize();
+
+        // Open Google
+        driver.get("https://www.google.com");
+
+        // Explicit Wait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Wait until search box is visible
+        WebElement searchBox = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.name("q")));
+
+        // Check properties
+        boolean displayed = searchBox.isDisplayed();
+        boolean enabled = searchBox.isEnabled();
+
+        System.out.println("Displayed : " + displayed);
+        System.out.println("Enabled   : " + enabled);
+
+        if (displayed && enabled) {
+            System.out.println("PASS: Search box is ready");
+        } else {
+            System.out.println("FAIL: Search box is not ready");
+        }
+
+        // Close Browser
+        driver.quit();
+    }
+}
+
+
+
+4
+
+package com.test.selenium;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Exp4_BitmapCheckpoint {
+
+    public static void main(String[] args) {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        try {
+
+            driver.manage().window().maximize();
+            driver.get("https://www.google.com");
+
+            // Locate Google Search Box
+            WebElement searchBox = driver.findElement(By.name("q"));
+
+            // Create Screenshots Folder
+            File folder = new File("Screenshots");
+
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            // Capture Current Screenshot
+            File currentImage = searchBox.getScreenshotAs(OutputType.FILE);
+
+            File currentFile = new File("Screenshots/current_searchbox.png");
+
+            FileHandler.copy(currentImage, currentFile);
+
+            System.out.println("Current screenshot saved:");
+            System.out.println(currentFile.getAbsolutePath());
+
+            // Baseline Image
+            File baselineFile = new File("Screenshots/baseline_searchbox.png");
+
+            if (!baselineFile.exists()) {
+
+                System.out.println("Baseline image not found.");
+                System.out.println("Rename current_searchbox.png as baseline_searchbox.png");
+
+            } else {
+
+                boolean result = compareImages(baselineFile, currentFile);
+
+                if (result) {
+
+                    System.out.println("BITMAP CHECKPOINT : TEST PASS");
+                    System.out.println("Images are identical.");
+
+                } else {
+
+                    System.out.println("BITMAP CHECKPOINT : TEST FAIL");
+                    System.out.println("Images are different.");
+
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("Execution Failed");
+            e.printStackTrace();
+
+        } finally {
+
+            driver.quit();
+
+        }
+
+    }
+
+    // Compare Images
+    public static boolean compareImages(File img1, File img2) throws Exception {
+
+        BufferedImage image1 = ImageIO.read(img1);
+        BufferedImage image2 = ImageIO.read(img2);
+
+        if (image1.getWidth() != image2.getWidth()
+                || image1.getHeight() != image2.getHeight()) {
+
+            return false;
+        }
+
+        for (int x = 0; x < image1.getWidth(); x++) {
+
+            for (int y = 0; y < image1.getHeight(); y++) {
+
+                if (image1.getRGB(x, y) != image2.getRGB(x, y)) {
+
+                    return false;
+
+                }
+
+            }
+
+        }
+
+        return true;
+
+    }
+
+}
+
+
+
+4b
+
+
+package com.test.selenium;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Exp4B_BitmapCheckpointScreenArea {
+
+    public static void main(String[] args) throws Exception {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        try {
+
+            // Maximize Browser
+            driver.manage().window().maximize();
+
+            // Open Google
+            driver.get("https://www.google.com");
+
+            // Wait for page to load
+            Thread.sleep(3000);
+
+            // Capture Full Screenshot
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+            BufferedImage fullImage = ImageIO.read(screenshot);
+
+            // Create Folder
+            File folder = new File("C:\\SeleniumScreenshots");
+
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            // Crop Top Left Area (800 x 600)
+            int width = Math.min(800, fullImage.getWidth());
+            int height = Math.min(600, fullImage.getHeight());
+
+            BufferedImage currentArea = fullImage.getSubimage(0, 0, width, height);
+
+            File currentFile = new File("C:\\SeleniumScreenshots\\current_google_area.png");
+
+            ImageIO.write(currentArea, "png", currentFile);
+
+            System.out.println("Current screenshot saved:");
+            System.out.println(currentFile.getAbsolutePath());
+
+            File baselineFile = new File("C:\\SeleniumScreenshots\\baseline_google_area.png");
+
+            if (!baselineFile.exists()) {
+
+                System.out.println("Baseline image not found.");
+                System.out.println("Rename current_google_area.png to baseline_google_area.png");
+
+            } else {
+
+                BufferedImage baseline = ImageIO.read(baselineFile);
+
+                double similarity = compareImages(baseline, currentArea);
+
+                System.out.printf("Image Similarity : %.2f%%\n", similarity);
+
+                if (similarity >= 95) {
+
+                    System.out.println("BITMAP CHECKPOINT : TEST PASS");
+
+                } else {
+
+                    System.out.println("BITMAP CHECKPOINT : TEST FAIL");
+
+                }
+
+            }
+
+        } finally {
+
+            driver.quit();
+
+        }
+
+    }
+
+    // Compare Images
+    public static double compareImages(BufferedImage img1, BufferedImage img2) {
+
+        if (img1.getWidth() != img2.getWidth()
+                || img1.getHeight() != img2.getHeight()) {
+
+            return 0;
+        }
+
+        long totalPixels = (long) img1.getWidth() * img1.getHeight();
+        long samePixels = 0;
+
+        for (int x = 0; x < img1.getWidth(); x++) {
+
+            for (int y = 0; y < img1.getHeight(); y++) {
+
+                if (img1.getRGB(x, y) == img2.getRGB(x, y)) {
+
+                    samePixels++;
+
+                }
+
+            }
+
+        }
+
+        return ((double) samePixels / totalPixels) * 100;
+
+    }
+
+}
+
+
+
+
+5
+package com.test.selenium;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Exp5_DatabaseCheckpoint {
+
+    public static void main(String[] args) {
+
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+
+            // Connect to H2 Database
+            con = DriverManager.getConnection(
+                    "jdbc:h2:./StudentDB", "sa", "");
+
+            stmt = con.createStatement();
+
+            // Create Table
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS STUDENT ("
+                            + "ID INT PRIMARY KEY, "
+                            + "NAME VARCHAR(50), "
+                            + "EMAIL VARCHAR(100))");
+
+            // Delete Previous Records
+            stmt.execute("DELETE FROM STUDENT");
+
+            // Insert Record
+            stmt.executeUpdate(
+                    "INSERT INTO STUDENT VALUES "
+                            + "(1,'Ajay','ajay@gmail.com')");
+
+            // Database Checkpoint
+            rs = stmt.executeQuery(
+                    "SELECT * FROM STUDENT WHERE ID=1");
+
+            if (rs.next()) {
+
+                System.out.println("Record Exists");
+                System.out.println("ID    : " + rs.getInt("ID"));
+                System.out.println("Name  : " + rs.getString("NAME"));
+                System.out.println("Email : " + rs.getString("EMAIL"));
+
+                System.out.println("TEST PASSED");
+
+            } else {
+
+                System.out.println("Record Not Found");
+                System.out.println("TEST FAILED");
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (rs != null)
+                    rs.close();
+
+                if (stmt != null)
+                    stmt.close();
+
+                if (con != null)
+                    con.close();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+5 dep
+*************************************** 
+// Not For Students (for your refrence) 
+To install H2 DATABASE Dependency for pom.xml 
+<dependency> 
+    <groupId>com.h2database</groupId> 
+    <artifactId>h2</artifactId> 
+    <version>2.4.240</version> 
+</dependency> 
+**************************************
+
+
+
+
+
+
+
+
+
+sdc
+
+
+1
+import React, { useState } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <h1>Counter</h1>
+      <p>Count: {count}</p>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+    </div>
+  );
+}
+
+export default App;
+
+
+2
+product.js
+
+
+function ProductCard({ name, price, category }) {
+  return (
+    <div
+      style={{
+        border: "1px solid #ccc",
+        borderRadius: "10px",
+        padding: "15px",
+        margin: "15px",
+        width: "250px",
+      }}
+    >
+      <h2>{name}</h2>
+      <h3>Price: ₹{price}</h3>
+      <p>Category: {category}</p>
+
+      <button onClick={() => alert(`${name} Purchased`)}>
+        Buy Now
+      </button>
+    </div>
+  );
+}
+
+export default ProductCard;
+
+
+app.js
+import ProductCard from "./ProductCard";
+
+function App() {
+  const products = [
+    {
+      name: "Laptop",
+      price: 50000,
+      category: "Electronics",
+    },
+    {
+      name: "Mobile",
+      price: 20000,
+      category: "Electronics",
+    },
+    {
+      name: "Headphones",
+      price: 3000,
+      category: "Accessories",
+    },
+  ];
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Product Listing</h1>
+
+      {products.map((product, index) => (
+        <ProductCard
+          key={index}
+          name={product.name}
+          price={product.price}
+          category={product.category}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default App;
+
+
+
+3
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useContext,
+  createContext
+} from "react";
+
+const ThemeContext = createContext();
+
+function App() {
+  const [theme, setTheme] = useState("light");
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <Inventory />
+    </ThemeContext.Provider>
+  );
+}
+
+function Inventory() {
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  const [products, setProducts] = useState([]);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [search, setSearch] = useState("");
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const addProduct = () => {
+    if (name === "" || price === "") return;
+
+    setProducts([
+      ...products,
+      {
+        name,
+        price: Number(price)
+      }
+    ]);
+
+    setName("");
+    setPrice("");
+    inputRef.current.focus();
+  };
+
+  const filteredProducts = useMemo(() => {
+    return products.filter(product =>
+      product.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [products, search]);
+
+  const totalValue = useMemo(() => {
+    return products.reduce((sum, product) => sum + product.price, 0);
+  }, [products]);
+
+  const appStyle = {
+    padding: "20px",
+    minHeight: "100vh",
+    background: theme === "light" ? "#ffffff" : "#222222",
+    color: theme === "light" ? "#000000" : "#ffffff"
+  };
+
+  return (
+    <div style={appStyle}>
+      <h1>Inventory Management</h1>
+
+      <button
+        onClick={() =>
+          setTheme(theme === "light" ? "dark" : "light")
+        }
+      >
+        Toggle Theme
+      </button>
+
+      <br /><br />
+
+      <input
+        ref={inputRef}
+        placeholder="Product Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      <br /><br />
+
+      <input
+        type="number"
+        placeholder="Price"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+      />
+
+      <br /><br />
+
+      <button onClick={addProduct}>
+        Add Product
+      </button>
+
+      <br /><br />
+
+      <input
+        placeholder="Search Product"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <hr />
+
+      <h2>Products</h2>
+
+      {filteredProducts.length === 0 ? (
+        <p>No Products Found</p>
+      ) : (
+        filteredProducts.map((product, index) => (
+          <div key={index}>
+            {product.name} - ₹{product.price}
+          </div>
+        ))
+      )}
+
+      <hr />
+
+      <h2>Total Inventory Value: ₹{totalValue}</h2>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+commands
+>node -v 
+npm -v
+npx create-react-app hello-react 
+cd   dir
+npm start 
+
+
+
+
+
+
+
+
